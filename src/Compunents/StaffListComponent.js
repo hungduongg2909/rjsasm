@@ -1,5 +1,6 @@
 import { STAFFS } from "../share/staffs";
 import { useState } from "react";
+import dateFormat from "dateformat";
 
 function StaffList() {
     const [info, setInfo] = useState('');
@@ -7,11 +8,12 @@ function StaffList() {
 
     function handleInfo(e) {
         let _info = STAFFS.find(staff => staff.id == Number(e.id))
+        console.log()
         setInfo(
             <div>
                 <h1>Họ và tên: {_info.name}</h1>
-                <p>Ngày sinh: {_info.doB}</p>
-                <p>Ngày vào công ty: {_info.startDate}</p>
+                <p>Ngày sinh: {dateFormat(_info.doB, "dd/mm/yyyy")}</p>
+                <p>Ngày vào công ty: {dateFormat(_info.startDate, "dd/mm/yyyy")}</p>
                 <p>Phòng ban: {_info.department.name}</p>
                 <p>Số ngày nghỉ còn lại: {_info.annualLeave}</p>
                 <p>Số ngày đã làm thêm: {_info.overTime}</p>
