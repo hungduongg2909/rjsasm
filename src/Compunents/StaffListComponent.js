@@ -7,7 +7,7 @@ function StaffList() {
     const [changeCol, setChangeCol] = useState('');
 
     function handleInfo(e) {
-        let _info = STAFFS.find(staff => staff.id == Number(e.id))
+        let _info = STAFFS.find(staff => staff.id === Number(e.id))
         console.log()
         setInfo(
             <div>
@@ -36,6 +36,7 @@ function StaffList() {
     }
 
     const staffs = STAFFS.map( staff => {
+
         return (
             <li key={staff.id} className="staffList col-12 col-md-6 col-xl-4">
                 <div className="staff" id={staff.id} onClick={(e) => {handleInfo(e.target)}}>{staff.name}</div>
