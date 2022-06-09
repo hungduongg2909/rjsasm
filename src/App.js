@@ -1,19 +1,19 @@
+import React, { Component } from 'react';
+import { BrowserRouter } from 'react-router-dom';
 import './App.css';
-import { Navbar, NavbarBrand } from 'reactstrap';
-import StaffList from './Compunents/StaffListComponent';
+import Main from './components/MainComponent';
 
-function App() {
+class App extends Component {
+
+  render() {
     return (
-        <div>
-            <Navbar dark color="primary">
-                <div className="container">
-                    <NavbarBrand href="/">Ứng dụng quản lý nhân sự v1.0</NavbarBrand>
-                </div>
-            </Navbar>
-      
-            <StaffList />
-        </div>
+        <BrowserRouter>
+            <div className="App">
+                <Main />
+            </div>
+        </BrowserRouter>
     );
+  }
 }
 
 export default App;
