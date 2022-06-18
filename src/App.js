@@ -1,19 +1,25 @@
+import React, { Component } from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import Main from './components/MainComponent';
+import { Provider } from 'react-redux';
+import { ConfigureStore } from './redux/configureStore';
 import './App.css';
-import { Navbar, NavbarBrand } from 'reactstrap';
-import StaffList from './Compunents/StaffListComponent';
 
-function App() {
+const store = ConfigureStore();
+
+class App extends Component {
+
+  render() {
     return (
-        <div>
-            <Navbar dark color="primary">
-                <div className="container">
-                    <NavbarBrand href="/">Ứng dụng quản lý nhân sự v1.0</NavbarBrand>
+      <Provider store={store}>
+            <BrowserRouter>
+                <div className="App">
+                    <Main />
                 </div>
-            </Navbar>
-      
-            <StaffList />
-        </div>
+            </BrowserRouter>
+    </Provider>
     );
+  }
 }
 
 export default App;

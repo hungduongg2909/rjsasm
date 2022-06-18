@@ -1,34 +1,79 @@
-*{
-    margin: 0;
-    box-sizing: border-box;
-    outline: none;
-}
-
-.main {
-    margin-top: 20px;
-}
-
-.staff {
-    border: 1px solid #000;
-    width: 100%;
-    text-decoration: none;
-    display: block;
-    margin-right: 16px;
-    border-radius: 4px;
-}
-
-.staffList {
+li {
     list-style: none;
-    cursor: pointer;
+}
+
+.row-header{
+    margin:0px auto;
+    padding:0px auto;
+}
+
+.row-content {
+    margin:0px auto;
+    padding: 50px 0px 50px 0px;
+    border-bottom: 1px ridge;
+    min-height:400px;
+}
+
+.footer{
+    background-color: #D1C4E9;
+    margin:0px auto;
+    padding: 20px 0px 20px 0px;
+}
+.alert {
+    padding:70px 30px 70px 30px;
+    margin:0px auto;
+    background: #9575CD ;
+    color:floralwhite;
+}
+
+address{
+    font-size:80%;
+    margin:0px;
+    color:#0f0f0f;
+}
+
+.navbar-dark {
+    background-color: #512DA8;
+}
+
+/* AboutComponent */
+
+.media-list {
+    list-style: none;
+}
+
+.center {
     text-align: center;
-    margin-bottom: 16px;
 }
 
-.staffList:hover .staff{
-    background-color: red;
-    color: white;
+.blockquote-footer-m {
+    margin-top: unset;
 }
 
-.btn {
-    margin-right: 16px;
+.custom_btnLogin {
+    justify-content: space-between;
+}
+
+.departments_list div {
+    border: 2px solid #000;
+    border-radius: 8px;
+    padding: 8px;
+}
+
+.number_department {
+    font-size: 32px;
+}
+
+.formSearch {
+    display: flex;
+    height: 40px;
+    float: right;
+}
+
+.formSearch button {
+    font-size: 16px;
+}
+
+.heading_search {
+    justify-content: space-between;
 }
