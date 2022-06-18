@@ -1,11 +1,13 @@
-import { DEPARTMENTS } from "../shared/staffs";
+import React from 'react';
+import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, Media} from 'reactstrap';
+import { Link } from 'react-router-dom';
 
-function Department() {
+function Department(props) {
     return (
         <div className="container department">
             <div className="row gx-3 gy-3">
                 {
-                    DEPARTMENTS.map(department => {
+                    props.leaders.map(department => {
                         return (
                             <li className="departments_list col-12 col-md-6 col-xl-4" key={department.id}>
                                 <div>
@@ -21,4 +23,4 @@ function Department() {
     )
 }
 
-export default Department;
+export default Department;   

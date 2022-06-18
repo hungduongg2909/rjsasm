@@ -1,56 +1,82 @@
 import React, { Component } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
+/* import { Switch, Route, Redirect } from 'react-router-dom';
+        Switch & Redirect has been removed from React router v6, and replaced Routes and Navigate*/
+import { connect } from 'react-redux';
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';
 import Home from './HomeComponent';
-import Department from './DepartmentComponent';
-import DishDetail from './DishdetailComponent';
 import Salary from './SalaryComponent';
-import Search from './SearchComponent';
-import { STAFFS } from '../shared/staffs';
-import { useLocation } from 'react-router-dom';
+import DishDetail from './DishdetailComponent';
+import Deapartment from './DepartmentComponent';
+import { STAFFS } from '../shared/staffs'
 
-class Main extends Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            staffs: STAFFS
-        };
+const mapStateToProps = state => {
+    return {
+      dishes: state.dishes,
+      comments: state.comments,
+      promotions: state.promotions,
+      leaders: state.leaders,
+      staffs: state.staffs,
+      departments: state.departments
     }
+  }
+
+  
+  class Main extends Component {
+      
+      constructor(props) {
+          super(props);
+
+          this.state = {
+
+            staffs: STAFFS
+          }
+        
+    }
+
 
     
     render() {
-        const _staffs = this.state.staffs;
 
-        function DishWithId(props) {
-            const location = useLocation();
-            let match = location.pathname;
+       const DishWithId = ({match}) => {
+
+            console.log(this.state.staffs)
 
             return(
                 <DishDetail
-                    dish={props.staffs.filter(staff => staff.id === Number(match.slice(6)))}
-                    comment={props.staffs.filter(staff => staff.id === Number(match.slice(6)))}
+                    dish={this.state.staffs.filter((dish) => dish.id === Number(match.params.dishId))}
+                    
+                    comments={this.state.staffs.filter((comment) => comment.id === Number(match.params.dishId))}
                 />
+                
             );
-        };
+        }
+
+        const callbackFunction = (childData) => {
+            
+            let data = childData.map(child => JSON.parse(child))
+
+            let data3 = [...STAFFS, ...data];
+            
+            this.setState({staffs: data3});
+            
+        }
+        
+        
 
         return (
             <div>
                 <Header />
-                <Search />
 
-                <Routes>
-                    <Route path='/home' element={<Home staffs={_staffs}/>} />
-                        <Route path='/home/:staffId'
-                            element={<DishWithId staffs={_staffs}/>}
-                        />
-                    <Route exact path='/department' element={<Department />} />
-                    <Route exact path='/salary' element={<Salary staffs={_staffs}/>} />
-                        <Route exact path='/salary/:salaryState' element={<Salary staffs={_staffs}/>} />
+                <Switch>
+                    <Route exact path="/home" component={() => <Home dishes={this.state.staffs} parentCallback={callbackFunction} />} />
+                    <Route path="/home/:dishId" component={DishWithId} />
+                    <Route exact path='/department' component={() => <Deapartment leaders={this.props.departments} />} />
+                    <Route exact path="/salary" component={() => <Salary staffs={this.props.staffs} />} />
 
-                    <Route path="/" element={<Navigate to="/home" replace />} />
-                </Routes>
+                    <Redirect to={{pathname: "/home"}}></Redirect>
+                </Switch>
 
                 <Footer />
             </div>
@@ -58,4 +84,4 @@ class Main extends Component {
     }
 }
 
-export default Main;
+export default withRouter(connect(mapStateToProps)(Main));

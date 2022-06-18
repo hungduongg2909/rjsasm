@@ -26,12 +26,10 @@ export const DEPARTMENTS =
             numberOfStaff: 11
         }
     ]
-    
 export const ROLE = {
     NORMAL_STAFF: "Nhân viên",
     MANAGER_STAFF: "Quản lý"
 }
-
 export const STAFFS =
     [
         {
