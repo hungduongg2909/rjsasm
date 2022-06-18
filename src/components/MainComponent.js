@@ -72,8 +72,8 @@ const mapStateToProps = state => {
                 <Switch>
                     <Route exact path="/home" component={() => <Home dishes={this.state.staffs} parentCallback={callbackFunction} />} />
                     <Route path="/home/:dishId" component={DishWithId} />
-                    <Route exact path='/department' component={() => <Deapartment leaders={this.props.departments} />} />
-                    <Route exact path="/salary" component={() => <Salary staffs={this.props.staffs} />} />
+                    <Route exact path='/department' component={() => <Deapartment leaders={STAFFS.departments} />} />
+                    <Route exact path="/salary" component={() => <Salary staffs={STAFFS.staffs} />} />
 
                     <Redirect to={{pathname: "/home"}}></Redirect>
                 </Switch>
