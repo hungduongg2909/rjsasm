@@ -19,7 +19,7 @@ function RenderHomeItem ({dish, delStaff, id}) {
                 exitTransform: 'scale(0.5) translateY(-50%)'
         }}>
             <Card>
-                <i className="remove fa fa-times" aria-hidden="true" onClick={() => delStaff(id)}></i>
+                {/* <i className="remove fa fa-times" aria-hidden="true" onClick={() => delStaff(id)}></i> */}
                 <CardImg width="100%" src={dish.image} alt={dish.name} />
                 <Card className="text-center">
                     <CardTitle>{dish.name}</CardTitle>
@@ -81,11 +81,11 @@ class Home extends Component{
                         <BreadcrumbItem active >Nhân viên</BreadcrumbItem>
                     </Breadcrumb> 
 
-                    <Nav className="" navbar>
+                    {/* <Nav className="" navbar>
                         <NavItem>
                             <Button outline onClick={this.toggleModal}><span className="fa fa-sign-in fa-lg"></span> </Button>
                         </NavItem>
-                    </Nav>
+                    </Nav> */}
                 </div>
             
                 <div className="row">
