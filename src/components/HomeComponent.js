@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Navbar, NavbarBrand, Nav, NavbarToggler, Collapse, NavItem, Alert,
+import { Nav, NavItem, Alert,
  Modal, ModalHeader, ModalBody, Card, CardImg, CardImgOverlay,
     CardTitle, Breadcrumb, BreadcrumbItem, Button, Row, Form, FormGroup, Input, Col, Label } from 'reactstrap';
 import { Control, LocalForm, Errors } from 'react-redux-form';
@@ -12,7 +12,7 @@ const minLength = (len) => (val) => val && (val.length >= len);
 const isNumber = (val) => !isNaN(Number(val));
 const validEmail = (val) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(val);
 
-function RenderHomeItem ({dish, onClick}) {
+function RenderHomeItem ({dish}) {
     return (
         <Card>
             <Link to={`/home/${dish.id}`} >
@@ -30,77 +30,19 @@ class Home extends Component{
     
     constructor(props) {
         super(props);
-
-
-        this.state = {
-            newDishes: this.props.dishes,
-            isModalOpen: false,
-            newAdd: []
-
-        }
-        
-      this.handleSubmit = this.handleSubmit.bind(this);
-      this.handleLogin = this.handleLogin.bind(this);
-      this.toggleModal = this.toggleModal.bind(this);
-      this.sendData = this.sendData.bind(this);
-      
-      
-    }
-
-    sendData(a) {
-        this.props.parentCallback(a);
+    
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleLogin = this.handleLogin.bind(this);
+        this.toggleModal = this.toggleModal.bind(this); 
     }
 
     handleSubmit(values) {
         this.toggleModal();
-        let n = 1;
-        while (localStorage.getItem(n) != null) {
-            n++
-        }
-
-        localStorage.setItem(n, JSON.stringify(values));
-
-        let m = 1;
-        let array = [];
-        let arrayData = [];
-        while (localStorage.getItem(m) != null) {
-            let obj = JSON.parse(localStorage.getItem(m));
-
-            let object = {
-                ...obj,
-                id: this.state.newDishes.length + m - 1,
-                department: Number(obj.department),
-                image: '/assets/images/alberto.png',
-                annualLeave: Number(obj.annualLeave),
-                overTime: Number(obj.overTime),
-                salaryScale: Number(obj.salaryScale),
-            }
-
-            arrayData.push(JSON.stringify(object));
-            array.push(object)
-
-            m++;
-        }
-
-        this.sendData(arrayData)
-        this.setState({newAdd: array})
+        console.log(values);
     };
 
     handleLogin(event) {
-        if (this.username.value) {
-            const newDishes = this.props.dishes.filter(d => d.name.toLowerCase().indexOf(this.username.value.toLowerCase()) != -1);
-
-            if (newDishes.length != 0) {
-
-                this.setState({newDishes: newDishes});
-            } else {
-
-                alert('Input is fail');
-            }
-            
-        } else {
-            alert('Input is fail');
-        }
+        console.log(event)
         event.preventDefault();
 
     }
@@ -112,20 +54,12 @@ class Home extends Component{
       }
 
     render() {
-        const home = this.state.newDishes.map((dish) => {
+        const home = this.props.staffs.staffs.map((dish) => {
             return (
                 <div className="col-6 col-md-4 col-xl-2"  key={dish.id}>
                     <RenderHomeItem dish={dish} />
                 </div>
             );
-        });
-
-        const add = this.state.newAdd.map((item) => {
-            return (
-                <div className="col-6 col-md-4 col-xl-2"  key={item.id}>
-                    <RenderHomeItem dish={item} />
-                </div>
-            )
         });
 
 
@@ -159,7 +93,6 @@ class Home extends Component{
             
                 <div className="row">
                     {home}
-                    {add}
                 </div>
             </div>
             <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
