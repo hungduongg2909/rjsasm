@@ -1,7 +1,8 @@
 import React from 'react';
 
 
-function Salary({staffs}) {
+function Salary({salary}) {
+    let _salary = salary.salary
     return (
         <div className="container salary">
             <div className="row">
@@ -20,13 +21,13 @@ function Salary({staffs}) {
                     </thead>
                     <tbody>
                         {
-                            staffs.map(staff => (
-                                    <tr key={staff.id} className="salary_staff">
-                                    <th scope="row">{staff.id + 1}</th>
-                                    <td>{staff.name}</td>
-                                    <td>{staff.salaryScale}</td>
-                                    <td>{staff.overTime}</td>
-                                    <td>{staff.salaryScale*3000000 + staff.overTime*2000000}</td>
+                            _salary.map(salary => (
+                                    <tr key={salary.id} className="salary_staff">
+                                    <th scope="row">{salary.id + 1}</th>
+                                    <td>{salary.name}</td>
+                                    <td>{salary.salaryScale}</td>
+                                    <td>{salary.overTime}</td>
+                                    <td>{salary.salaryScale*3000000 + salary.overTime*2000000}</td>
                                     </tr>
                             ))
                         }

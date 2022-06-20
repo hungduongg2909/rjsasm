@@ -1,27 +1,32 @@
 import React, { Component } from 'react';
-import { Nav, NavItem, Alert,
- Modal, ModalHeader, ModalBody, Card, CardImg, CardImgOverlay,
-    CardTitle, Breadcrumb, BreadcrumbItem, Button, Row, Form, FormGroup, Input, Col, Label } from 'reactstrap';
+import { Nav, NavItem,
+ Modal, ModalHeader, ModalBody, Card, CardImg,
+    CardTitle, Breadcrumb, BreadcrumbItem, Button, Row, Col, Label } from 'reactstrap';
 import { Control, LocalForm, Errors } from 'react-redux-form';
+import { FadeTransform } from 'react-animation-components';
 
-import { Link } from 'react-router-dom';
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
 const minLength = (len) => (val) => val && (val.length >= len);
 const isNumber = (val) => !isNaN(Number(val));
-const validEmail = (val) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(val);
 
-function RenderHomeItem ({dish}) {
+function RenderHomeItem ({dish, delStaff, id}) {
     return (
-        <Card>
-            <Link to={`/home/${dish.id}`} >
+        <FadeTransform
+            in
+            transformProps={{
+                exitTransform: 'scale(0.5) translateY(-50%)'
+        }}>
+            <Card>
+                <i className="remove fa fa-times" aria-hidden="true" onClick={() => delStaff(id)}></i>
                 <CardImg width="100%" src={dish.image} alt={dish.name} />
                 <Card className="text-center">
                     <CardTitle>{dish.name}</CardTitle>
                 </Card>
-            </Link>
-        </Card>
+            </Card>
+        </FadeTransform>
+
     );
 }
 
@@ -30,22 +35,20 @@ class Home extends Component{
     
     constructor(props) {
         super(props);
+
+        this.state = {
+            isModalOpen: false
+        }
     
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleLogin = this.handleLogin.bind(this);
         this.toggleModal = this.toggleModal.bind(this); 
     }
 
     handleSubmit(values) {
         this.toggleModal();
-        console.log(values);
+        this.props.postStaff(values.name, values.doB, Number(values.salaryScale), values.startDate, values.departmentId,
+            Number(values.annualLeave), Number(values.overTime), Number(values.salary))
     };
-
-    handleLogin(event) {
-        console.log(event)
-        event.preventDefault();
-
-    }
 
     toggleModal() {
         this.setState({
@@ -57,7 +60,11 @@ class Home extends Component{
         const home = this.props.staffs.staffs.map((dish) => {
             return (
                 <div className="col-6 col-md-4 col-xl-2"  key={dish.id}>
-                    <RenderHomeItem dish={dish} />
+                    <RenderHomeItem
+                        dish={dish}
+                        delStaff={this.props.delStaff}
+                        id={dish.id}
+                    />
                 </div>
             );
         });
@@ -79,16 +86,6 @@ class Home extends Component{
                             <Button outline onClick={this.toggleModal}><span className="fa fa-sign-in fa-lg"></span> </Button>
                         </NavItem>
                     </Nav>
-
-                    
-
-                    <Form onSubmit={this.handleLogin} className="formSearch">
-                            <Input type="text" id="username" name="username"
-                                innerRef={(input) => this.username = input} />
-                        
-                        <Button type="submit" value="submit" color="primary">Search</Button>
-                    </Form>
-                
                 </div>
             
                 <div className="row">
@@ -161,17 +158,17 @@ class Home extends Component{
                                 </Col>
                             </Row>
                             <Row className="form-group">
-                            <Label htmlFor="startDate" md={5}>Phòng ban</Label>
+                            <Label htmlFor="departmentId" md={5}>Phòng ban</Label>
 
                                 <Col md={7}>
-                                    <Control.select model=".department" name="department"
-                                        defaultValue={1}
+                                    <Control.select model=".departmentId" name="departmentId"
+                                        defaultValue={'Dept04'}
                                         className="form-control">
-                                        <option value={0}>Sale</option>
-                                        <option value={1}>HR</option>
-                                        <option value={2}>Marketing</option>
-                                        <option value={3}>IT</option>
-                                        <option value={4}>Finance</option>
+                                        <option value={'Dept01'}>Sale</option>
+                                        <option value={'Dept02'}>HR</option>
+                                        <option value={'Dept03'}>Marketing</option>
+                                        <option value={'Dept04'}>IT</option>
+                                        <option value={'Dept05'}>Finance</option>
                                     </Control.select>
                                 </Col>
                             </Row>
@@ -227,6 +224,26 @@ class Home extends Component{
                                     <Errors
                                         className="text-danger"
                                         model=".overTime"
+                                        show="touched"
+                                        messages={{
+                                            required: 'Required',
+                                            isNumber: 'Must be a number'
+                                        }}
+                                     />
+                                </Col>
+                            </Row>
+                            <Row className="form-group">
+                                <Label htmlFor="salary" md={5}>Lương</Label>
+                                <Col md={7}>
+                                    <Control.text model=".salary" id="salary" name="salary"
+                                        className="form-control"
+                                        validators={{
+                                            required, isNumber
+                                        }}
+                                         />
+                                    <Errors
+                                        className="text-danger"
+                                        model=".salary"
                                         show="touched"
                                         messages={{
                                             required: 'Required',
