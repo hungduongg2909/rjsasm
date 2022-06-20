@@ -44,6 +44,7 @@ class Main extends Component {
         return (
             <div>
                 <Header />
+          
                     <TransitionGroup>
                         <CSSTransition key={this.props.location.key} classNames="page" timeout={300}>
                             <Switch location={this.props.location}>
@@ -63,8 +64,8 @@ class Main extends Component {
 
                                 <Redirect to={{pathname: "/home"}}></Redirect>
                             </Switch>
-                        </CSSTransition>
-                </TransitionGroup>
+                         </CSSTransition>
+                      </TransitionGroup>
 
                 <Footer />
             </div>
